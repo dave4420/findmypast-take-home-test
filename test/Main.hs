@@ -34,7 +34,7 @@ prop_strictlyAscending = \case
 prop_allCoprime :: [Int] -> QC.Property
 prop_allCoprime = \case
     [] -> QC.property True
-    x : xs -> case filter (coprime x) xs of
+    x : xs -> case filter (not . coprime x) xs of
         []    -> prop_allCoprime xs
         y : _ -> QC.counterexample
                     (unwords [show x, "and", show y, "are not coprime"])

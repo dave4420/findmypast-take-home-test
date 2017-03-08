@@ -16,14 +16,14 @@
 
      *  `stack build`
 
-    Or, if you want to run the tests as well,
-
-     *  `stack build --test`
-
 4.  Run the code.   e.g.
 
      *  `stack exec findmypast-take-home-test text 3`
      *  `stack exec findmypast-take-home-test csv 5`
+
+5.  Run the tests, if you like.
+
+     *  `stack test findmypast-take-home-test-lib`
 
 
 # What I'm pleased with

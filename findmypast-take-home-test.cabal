@@ -13,6 +13,7 @@ Library
   Exposed-Modules: Atkin
 
   Build-Depends: base
+               , containers
 
   Default-Language: Haskell2010
 

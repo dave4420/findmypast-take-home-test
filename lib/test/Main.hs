@@ -25,7 +25,7 @@ eratosthenesCount :: Int
 eratosthenesCount = 1000
 
 atkinCount :: Int
-atkinCount = 10000
+atkinCount = 50000
 
 basicPrimalityTests :: [Int] -> [Tst.TestTree]
 basicPrimalityTests primes

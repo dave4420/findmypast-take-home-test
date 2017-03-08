@@ -5,27 +5,37 @@ module Atkin (primes) where
 -- implementation of the Sieve of Atkin
 -- <https://en.wikipedia.org/wiki/Sieve_of_Atkin>
 
---DAVE: improve performance
-
-import           Control.Monad (guard)
-import qualified Data.Map      as M
+import           Control.Monad        (guard)
+import qualified Data.Map             as M
+import qualified Data.PQueue.Prio.Min as PQ
 
 primes :: [Int]
-primes = 2 : 3 : 5 : nextPrimes [7, 9..]
+primes = 2 : 3 : 5 : nextPrimes PQ.empty [7, 9..]
 
-nextPrimes :: [Int] -> [Int]
-nextPrimes = \case
+nextPrimes :: PQ.MinPQueue Int Int -> [Int] -> [Int]
+nextPrimes queue = \case
     [] -> []
-    x : xs ->
-        let emit = x : filter (not . isMultipleOfSquare) (nextPrimes xs)
-            isMultipleOfSquare y = 0 == y `mod` square
-            square = x * x
-            --DAVE: filtering out using a priority queue would be more efficient
-        in case whichCase x of
-            Just CaseOne   | odd (countCaseOneSolutions x)   -> emit
-            Just CaseTwo   | odd (countCaseTwoSolutions x)   -> emit
-            Just CaseThree | odd (countCaseThreeSolutions x) -> emit
-            _                                                -> nextPrimes xs
+    x : xs -> case PQ.minViewWithKey queue of
+        Just ((multipleSquare, oneSquare), queue')
+            | multipleSquare == x
+                -> nextPrimes
+                    (PQ.insert (multipleSquare + oneSquare) oneSquare queue')
+                    xs
+
+            | multipleSquare < x
+                -> nextPrimes
+                    (PQ.insert (multipleSquare + oneSquare) oneSquare queue')
+                    (x : xs)
+
+        _ ->
+            let emit = x : nextPrimes (PQ.insert square square queue) xs
+                square = x * x
+                skip = nextPrimes queue xs
+            in case whichCase x of
+                Just CaseOne   | odd (countCaseOneSolutions x)   -> emit
+                Just CaseTwo   | odd (countCaseTwoSolutions x)   -> emit
+                Just CaseThree | odd (countCaseThreeSolutions x) -> emit
+                _                                                -> skip
 
 data Case = CaseOne | CaseTwo | CaseThree
 

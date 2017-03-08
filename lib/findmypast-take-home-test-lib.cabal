@@ -14,6 +14,7 @@ Library
 
   Build-Depends: base
                , containers
+               , pqueue
 
   Default-Language: Haskell2010
 

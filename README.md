@@ -37,6 +37,8 @@ Run this on a 64 bit computer, or it will generate incorrect answers by the
 
 # What I would do if I had more time
 
+ *  work out why outputing the table is so slow;  UTF-8 encoding?
+    I/O inefficiency?   Just the sheer amount of text?   Something else?
  *  assuming we need a faster implementation:
      *  benchmark Atkins against Eratosthenes; maybe Eratosthenes is faster
      *  maybe implement another couple of prime generation algorithms,
@@ -49,7 +51,7 @@ Run this on a 64 bit computer, or it will generate incorrect answers by the
     primes greater than 2\*\*26)
  *  use `Integer` (arbitrarily large integer type) instead of `Int` (if we're
     interested in primes greater than 2\*\*31)
- *  use a proper options parsing library
+ *  use a proper command line parsing library
 
 
 # What I'm not happy about

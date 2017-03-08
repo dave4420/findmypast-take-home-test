@@ -1,4 +1,4 @@
-Name: findmypast-take-home-test
+Name: findmypast-take-home-test-lib
 Version: 1.1
 
 License: MIT
@@ -24,7 +24,7 @@ Test-Suite tests
   Main-Is:             Main.hs
   Other-Modules:       Eratosthenes
   Build-Depends:       base
-                     , findmypast-take-home-test
+                     , findmypast-take-home-test-lib
                      , tasty
                      , tasty-quickcheck
   GHC-Options:         -threaded -rtsopts -with-rtsopts=-N

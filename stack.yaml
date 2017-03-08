@@ -1,6 +1,7 @@
 resolver: lts-8.4
 
 packages:
+- bin
 - lib
 
 flags: {}

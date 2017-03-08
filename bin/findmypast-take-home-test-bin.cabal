@@ -1,0 +1,20 @@
+Name: findmypast-take-home-test-bin
+Version: 1.1
+
+License: MIT
+License-File: LICENSE
+Build-Type: Simple
+
+Cabal-Version: >= 1.10
+
+
+Executable findmypast-take-home-test
+  HS-Source-Dirs:      src
+  Main-Is:             Main.hs
+  GHC-Options:         -threaded -rtsopts -with-rtsopts=-N
+  Default-Language:    Haskell2010
+
+  Build-Depends:       base
+                     , containers
+                     , findmypast-take-home-test-lib
+                     , text

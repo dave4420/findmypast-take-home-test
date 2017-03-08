@@ -50,3 +50,13 @@ Run this on a 64 bit computer, or it will generate incorrect answers by the
  *  use `Integer` (arbitrarily large integer type) instead of `Int` (if we're
     interested in primes greater than 2\*\*31)
  *  use a proper options parsing library
+
+
+# What I'm not happy about
+
+ *  I can't think of a way to test that my implementation doesn't miss any
+    primes (I've eyeballed it for small primes, and I've tested the
+    implementations against each other, but it's not the same)
+ *  I don't have any sense of how performant my code is (the tests take about
+    3½s to run on my laptop;  is that fast enough?   I have no idea.   It was a
+    bit excessive to earlier generate 50000 primes in my tests though)

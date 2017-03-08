@@ -1,8 +1,11 @@
 {-# LANGUAGE LambdaCase #-}
 
+import qualified Atkin
+
 import qualified Eratosthenes
 
 import qualified Test.Tasty            as Tst
+import           Test.Tasty.QuickCheck ((===))
 import qualified Test.Tasty.QuickCheck as QC
 
 main :: IO ()
@@ -11,8 +14,18 @@ main = Tst.defaultMain tests
 tests :: Tst.TestTree
 tests = Tst.testGroup "tests"
     [ Tst.testGroup "Sieve of Eratosthenes"
-        (basicPrimalityTests (take 1000 Eratosthenes.primes))
+        (basicPrimalityTests (take eratosthenesCount Eratosthenes.primes))
+    , Tst.testGroup "Sieve of Atkin"
+        ( basicPrimalityTests (take atkinCount Atkin.primes)
+        ++ consistencyTests Atkin.primes
+        )
     ]
+
+eratosthenesCount :: Int
+eratosthenesCount = 1000
+
+atkinCount :: Int
+atkinCount = 50000
 
 basicPrimalityTests :: [Int] -> [Tst.TestTree]
 basicPrimalityTests primes
@@ -42,3 +55,12 @@ prop_allCoprime = \case
 
 coprime :: Int -> Int -> Bool
 coprime x y = 1 == gcd x y
+
+consistencyTests :: [Int] -> [Tst.TestTree]
+consistencyTests primesUnderTest'
+    = [ QC.testProperty "is consistent with the Sieve of Eratosthenes"
+            (primesUnderTest === knownGoodPrimes)
+      ]
+  where
+    primesUnderTest = take eratosthenesCount primesUnderTest'
+    knownGoodPrimes = take eratosthenesCount Eratosthenes.primes

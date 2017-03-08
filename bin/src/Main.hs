@@ -35,10 +35,15 @@ syntax = Tx.L.unlines
     , "<n> is the number of primes to generate the table with"
     ]
 
-buildSquare :: [Int] -> [[Int]]  -- generates rows of columns
-buildSquare = undefined  --DAVE
+type Table = [[Maybe Int]]  -- rows of columns
 
-type Formatter = [[Int]] -> Tx.L.Text
+buildSquare :: [Int] -> Table
+buildSquare primes
+    = (Nothing : map Just primes) : map buildRow primes
+  where
+    buildRow rowPrime = Just rowPrime : map (Just . (* rowPrime)) primes
+
+type Formatter = Table -> Tx.L.Text
 
 formats :: M.Map String Formatter
 formats = M.fromList
@@ -49,5 +54,9 @@ formats = M.fromList
 formatText :: Formatter
 formatText = undefined  --DAVE
 
+-- hacky implementation: we know nothing needs quoting or escaping
 formatCSV :: Formatter
-formatCSV = undefined  --DAVE
+formatCSV = Tx.L.unlines . map (Tx.L.intercalate ",") . formatCells
+
+formatCells :: [[Maybe Int]] -> [[Tx.L.Text]]
+formatCells = (map . map) (maybe "" (Tx.L.pack . show))

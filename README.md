@@ -12,7 +12,18 @@
 
      *  `stack setup`
 
-DAVE: building and running
+3.  Compile the code.
+
+     *  `stack build`
+
+    Or, if you want to run the tests as well,
+
+     *  `stack build --test`
+
+4.  Run the code.   e.g.
+
+     *  `stack exec findmypast-take-home-test text 3`
+     *  `stack exec findmypast-take-home-test csv 5`
 
 
 # What I'm pleased with

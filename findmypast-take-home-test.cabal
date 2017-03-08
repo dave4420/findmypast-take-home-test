@@ -21,6 +21,7 @@ Test-Suite tests
   Type:                exitcode-stdio-1.0
   HS-Source-Dirs:      test
   Main-Is:             Main.hs
+  Other-Modules:       Eratosthenes
   Build-Depends:       base
                      , findmypast-take-home-test
                      , tasty

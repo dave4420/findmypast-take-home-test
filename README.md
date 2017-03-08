@@ -1,8 +1,8 @@
 # Building and Running
 
 1.  [Install the Haskell Stack build tool][stack]. Install on
-    macOS/Linux/\*BSD if possible, as the Haskell has never been terribly
-    reliable on Windows.
+    macOS/Linux/\*BSD if possible, as the Haskell toolchain has never been
+    terribly reliable on Windows.
 
 [stack]: https://docs.haskellstack.org/en/stable/README/
 

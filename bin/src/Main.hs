@@ -7,6 +7,7 @@ import qualified Atkin
 
 import qualified Data.Char          as Ch
 import qualified Data.Map           as M
+import           Data.Monoid        ((<>))
 import qualified Data.Text.Lazy     as Tx.L
 import qualified Data.Text.Lazy.IO  as Tx.L.IO
 import           System.Environment (getArgs)
@@ -52,7 +53,14 @@ formats = M.fromList
     ]
 
 formatText :: Formatter
-formatText = undefined  --DAVE
+formatText = Tx.L.unlines . map Tx.L.unwords . pad . formatCells
+
+pad :: [[Tx.L.Text]] -> [[Tx.L.Text]]
+pad table = (map . map) pad' table
+  where
+    pad' cell
+        = Tx.L.replicate (longestCellLength - Tx.L.length cell) " " <> cell
+    longestCellLength = (Tx.L.length . last . last) table
 
 -- hacky implementation: we know nothing needs quoting or escaping
 formatCSV :: Formatter

@@ -53,7 +53,9 @@ formats = M.fromList
     ]
 
 formatText :: Formatter
-formatText = Tx.L.unlines . map Tx.L.unwords . pad . formatCells
+formatText = Tx.L.unlines . map unRow . pad . formatCells
+  where
+    unRow cells = "| " <> Tx.L.intercalate " | " cells <> " |"
 
 pad :: [[Tx.L.Text]] -> [[Tx.L.Text]]
 pad table = (map . map) pad' table

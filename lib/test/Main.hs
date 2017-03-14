@@ -33,6 +33,8 @@ basicPrimalityTests primes
             (prop_strictlyAscending primes)
       , QC.testProperty "primes are all coprime to each other"
             (prop_allCoprime primes)
+      , QC.testProperty "primes contains all factors of a random number"
+            (prop_factorsAreInPrimes primes)
       ]
 
 prop_strictlyAscending :: [Int] -> QC.Property
@@ -55,6 +57,34 @@ prop_allCoprime = \case
 
 coprime :: Int -> Int -> Bool
 coprime x y = 1 == gcd x y
+
+prop_factorsAreInPrimes :: [Int] -> QC.Gen QC.Property
+prop_factorsAreInPrimes primes0
+    = go primes0 <$> QC.choose (maxPrime `div` 2, maxPrime)
+    -- any prime in the list will be a factor of the chosen n with probability
+    -- of approximately 1/p: this test is much more likely to notice when a
+    -- small prime is missing than it is when a large prime is missing
+  where
+    maxPrime = last primes0
+
+    go :: [Int] -> Int -> QC.Property
+    go _ 1               = QC.counterexample "passes" True
+    go [] n              = (QC.counterexample . unwords)
+                            [ show n
+                            , "has no prime factors; reached end of list"
+                            ]
+                            False
+    go (p : ps) n
+        | n < p          = (QC.counterexample . unwords)
+                            [ show n
+                            , "has no prime factors; reached"
+                            , show p
+                            ]
+                            False
+        | remainder == 0 = go (p : ps) quotient
+        | otherwise      = go ps n
+      where
+        (quotient, remainder) = n `divMod` p
 
 consistencyTests :: [Int] -> [Tst.TestTree]
 consistencyTests primesUnderTest'
